@@ -110,7 +110,7 @@ class GenAI_Wrpapper:
 		prompt = self.get_summary_prompt_template()
 		output_parser = self.get_summary_output_parser()
 		instructions = output_parser.get_format_instructions()
-		chain = self.get_llm_chain(chat_client, prompt)
+		chain = self.get_llm_chain(prompt)
 		response = chain({"component_summary": component_summary, "delimiter": "###", "instructions": instructions,
 					   "components_list": ", ".join(components_list)}, return_only_outputs=True)
 		response_dict = output_parser.parse(response['text'])
@@ -122,7 +122,7 @@ class GenAI_Wrpapper:
 		output_parser = self.get_qa_output_parser()
 		instructions = output_parser.get_format_instructions()
 		context = vectordb.similarity_search(query, k=1)
-		chain = self.get_qa_chain(self.chat_client, prompt)
+		chain = self.get_qa_chain(prompt)
 		prompt_inputs = {"input_documents": context, "context_delimiter": "###", "question_delimiter": "$$$",
 					   "instructions": instructions, "question": question}
 		response = chain(prompt_inputs, return_only_outputs=True)
