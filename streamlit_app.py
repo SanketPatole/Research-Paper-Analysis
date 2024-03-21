@@ -251,6 +251,6 @@ class Page:
 					try:
 						self.get_answer(question=question)
 					except Exception as e1:
-						self.create_error_message(displayText=f"Unble to connect to ChatBot at his moment. Please try again later.")
+						self.create_error_message(displayText=f"Unble to connect to ChatBot at his moment. Please try again later.{e1}")
 page = Page()
 page.create_page()
