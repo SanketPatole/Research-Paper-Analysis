@@ -156,6 +156,10 @@ class Page:
 		self.submit_object2 = None
 		self.genai_wrapper_object = None
 		self.research_paper_summary = None
+        if 'research_paper_summary' not in st.session_state:
+            st.session_state.research_paper_summary = None
+		else:
+			self.research_paper_summary = st.session_state.research_paper_summary
 	
 	def create_header(self, displayText="Header"):
 		st.header(displayText)
@@ -221,6 +225,7 @@ class Page:
 				try:
 					self.genai_wrapper_object = GenAI_Wrpapper(chat_client)
 					self.research_paper_summary = self.get_summary()
+					st.session_state.research_paper_summary = self.research_paper_summary
 				except Exception as e1:
 					try:
 						self.genai_wrapper_object = GenAI_Wrpapper(alternative_model[chat_client])
