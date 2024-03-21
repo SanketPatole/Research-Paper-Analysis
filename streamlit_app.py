@@ -152,6 +152,7 @@ class Page:
 		self.research_paper_url = None
 		self.research_paper_content = ""
 		self.submit_object = None
+		self.submit_object2 = None
 		self.genai_wrapper_object = None
 	
 	def create_header(self, displayText="Header"):
@@ -216,25 +217,10 @@ class Page:
 				try:
 					self.genai_wrapper_object = GenAI_Wrpapper(chat_client)
 					self.get_summary(chat_client=chat_client)
-					self.create_header(displayText="Ask a question.")
-					question = self.create_input_text(displayText="Paste your question here...", height=1)
-					self.submit_object2 = self.create_submit_button(displayText="Ask")
-					if self.submit_object2:
-						if len(question.strip()) == 0:
-							self.create_error_message(displayText=f"Please ask a valid question.")
-						else:
-							answer = self.get_answer(chat_client=chat_client, question=question)
-							if len(answer.strip()) > 0:
-								st.write("#### Answer")
-								st.write(answer)
-							
 				except Exception as e1:
-					self.create_error_message(displayText=f"{e1}")
 					try:
 						self.genai_wrapper_object = GenAI_Wrpapper(alternative_model[chat_client])
 						self.get_summary(chat_client=alternative_model[chat_client])
-						self.create_header(displayText="Ask a question.")
-						self.submit_object2 = self.create_submit_button(displayText="Ask")
 						if self.submit_object2:
 							if len(question.strip()) == 0:
 								self.create_error_message(displayText=f"Please ask a valid question.")
@@ -244,7 +230,27 @@ class Page:
 									st.write("#### Answer")
 									st.write(answer)
 					except Exception as e2:
-						self.create_error_message(displayText=f"{e2}")
 						self.create_error_message(displayText=f"Unble to connect to ChatBot at his moment. Please try again later.")
+			
+			self.create_header(displayText="Ask a question.")
+			question = self.create_input_text(displayText="Paste your question here...", height=1)
+			self.submit_object2 = self.create_submit_button(displayText="Ask")
+			if self.submit_object2:
+				if len(question.strip()) == 0:
+					self.create_error_message(displayText=f"Please ask a valid question.")
+				else:
+					try:
+						answer = self.get_answer(chat_client=chat_client, question=question)
+						if len(answer.strip()) > 0:
+							st.write("#### Answer")
+							st.write(answer)
+					except Exception as e1:
+						try:
+							answer = self.get_answer(chat_client=alternative_model[chat_client], question=question)
+							if len(answer.strip()) > 0:
+								st.write("#### Answer")
+								st.write(answer)
+						except Exception as e2:
+							self.create_error_message(displayText=f"Unble to connect to ChatBot at his moment. Please try again later.")
 page = Page()
 page.create_page()
