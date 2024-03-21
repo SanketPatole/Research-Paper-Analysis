@@ -193,7 +193,7 @@ class Page:
 		response = self.genai_wrapper_object.get_summary(self.research_paper_content)
 		self.display_research_paper_summary(response)
 		
-	def get_answer(self, chat_client='chatgpt3.5', question):
+	def get_answer(self, chat_client, question):
 		return self.genai_wrapper_object.get_answer(question)
 		
 	def create_page(self):
