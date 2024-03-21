@@ -197,7 +197,8 @@ class Page:
 				try:
 					self.read_research_paper()
 				except Exception as e:
-					self.create_error_message(displayText=f"Please provide valid url.\nError: {e}")
+					self.create_error_message(displayText=f"Please provide valid url.")
+					return
 			if len(self.research_paper_content.strip()) == 0:
 				self.create_error_message(displayText="Please provide a valid research paper.")
 			elif len(self.research_paper_content.strip()) > 0:
