@@ -75,7 +75,7 @@ class GenAI_Wrpapper:
 		"""
 		return PromptTemplate(template=prompt_template_text, input_variables=["context", "delimiter", "instructions", "component"])
 		
-	def get_summary_prompt_template():
+	def get_summary_prompt_template(self):
 		prompt_template_text = """
 		You will be provided with details of {components_list} from a research paper enclosed within {delimiter} delimiter.
 		Please provide a combined summary from it.
