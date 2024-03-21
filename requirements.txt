@@ -10,3 +10,4 @@ docarray
 pypdf
 faiss-cpu
 llama_index
+urllib
