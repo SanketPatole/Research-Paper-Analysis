@@ -89,6 +89,24 @@ class GenAI_Wrpapper:
 		"""
 		return PromptTemplate(template=prompt_template_text, input_variables=["component_summary", "delimiter", "instructions", "components_list"])
 
+	def get_qa_prompt_template():
+		prompt_template_text = """
+		You will be provided with a question (delimited with {question_delimiter}) pertaining to a research paper.
+		You will also be provided with a relevant context (delimited with {context_delimiter}) extracted from a research paper.
+
+		Please answer the question keeping only the context in mind.
+		Answer must be one sentence long.
+
+		{question_delimiter}{question}{question_delimiter}
+
+		{context_delimiter}{context}{context_delimiter}
+
+		{instructions}
+
+		Let me remind again. Answer must be one sentence long.
+		"""
+		return PromptTemplate(template=prompt_template_text, input_variables=["context", "delimiter", "instructions", "component"])
+
 	def get_qa_chain(self, prompt):
 		return load_qa_chain(llm=self.chat_client, chain_type="stuff", prompt=prompt)
 
