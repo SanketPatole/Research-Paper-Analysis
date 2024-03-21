@@ -248,6 +248,7 @@ class Page:
 				if len(question.strip()) == 0:
 					self.create_error_message(displayText=f"Please ask a valid question.")
 				else:
+					self.get_answer(question=question)
 					try:
 						self.get_answer(question=question)
 					except Exception as e1:
