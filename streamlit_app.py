@@ -205,10 +205,14 @@ class Page:
 			elif len(self.research_paper_content.strip()) > 0:
 				try:
 					self.get_summary(chat_client=chat_client)
+					self.create_header(displayText="Ask a question.")
+					self.research_paper_url = self.create_input_text(displayText="Paste your question here...", height=1)
 				except Exception as e1:
 					self.create_error_message(displayText=f"Chatgpt failed for {e1}")
 					try:
 						self.get_summary(chat_client=alternative_model[chat_client])
+						self.create_header(displayText="Ask a question.")
+						self.research_paper_url = self.create_input_text(displayText="Paste your question here...", height=1)
 					except Exception as e2:
 						self.create_error_message(displayText=f"Unble to connect to ChatBot at his moment. Please try again later.")
 						self.create_error_message(displayText=f"Gemini failed for {e2}")
