@@ -63,6 +63,10 @@ class GenAI_Wrpapper:
 		summary = ResponseSchema(name=f"summary", description=f"Summary of the research paper in 1000 words.")
 		return StructuredOutputParser.from_response_schemas([summary])
 
+	def get_qa_output_parser(self):
+		answer = ResponseSchema(name=f"answer", description=f"Answer to the question asked in only one sentence.")
+		return StructuredOutputParser.from_response_schemas([answer])
+
 	def get_component_prompt_template(self):
 		prompt_template_text = """
 		You will be provided with {component} part of a research paper enclosed within {delimiter} delimiter.
