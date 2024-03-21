@@ -89,7 +89,7 @@ class GenAI_Wrpapper:
 		"""
 		return PromptTemplate(template=prompt_template_text, input_variables=["component_summary", "delimiter", "instructions", "components_list"])
 
-	def get_qa_prompt_template():
+	def get_qa_prompt_template(self):
 		prompt_template_text = """
 		You will be provided with a question (delimited with {question_delimiter}) pertaining to a research paper.
 		You will also be provided with a relevant context (delimited with {context_delimiter}) extracted from a research paper.
