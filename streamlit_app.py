@@ -223,7 +223,7 @@ class Page:
 						if len(question.strip()) == 0:
 							self.create_error_message(displayText=f"Please ask a valid question.")
 						else:
-							answer = self.get_answer(chat_client=chat_client, question)
+							answer = self.get_answer(chat_client=chat_client, question=question)
 							if len(answer.strip()) > 0:
 								st.write("#### Answer")
 								st.write(answer)
@@ -238,7 +238,7 @@ class Page:
 							if len(question.strip()) == 0:
 								self.create_error_message(displayText=f"Please ask a valid question.")
 							else:
-								answer = self.get_answer(chat_client=chat_client, question)
+								answer = self.get_answer(chat_client=chat_client, question=question)
 								if len(answer.strip()) > 0:
 									st.write("#### Answer")
 									st.write(answer)
