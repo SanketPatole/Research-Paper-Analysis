@@ -192,7 +192,7 @@ class Page:
 		self.create_header(displayText="Enter url of your research paper.")
 		self.research_paper_url = self.create_input_text(displayText="Paste the job description here...", height=1)
 		self.submit_object = self.create_submit_button(displayText="Load")
-		if self.research_paper_url is not None:
+		if self.research_paper_url:
 			try:
 				self.read_research_paper()
 			except Exception as e:
