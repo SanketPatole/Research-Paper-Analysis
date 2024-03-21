@@ -20,6 +20,7 @@ import time
 class GenAI_Wrpapper:
 	def __init__(self, chat_client='chatgpt3.5'):
 		self.is_gemini = False
+		self.vectordb = None
 		if chat_client == 'chatgpt3.5':
 			self.chat_client = ChatOpenAI(model="gpt-3.5-turbo")
 		elif chat_client == 'chatgpt3.5turbo':
@@ -132,7 +133,7 @@ class GenAI_Wrpapper:
 		
 	def get_summary(self, research_paper_content):
 		document_splits = self.get_document_splits(research_paper_content, chunk_size=1500, chunk_overlap=150)
-		vectordb = self.create_vectordb_from_document_splits(document_splits)
+		self.vectordb = self.create_vectordb_from_document_splits(document_splits)
 		components = ["abstract", "introduction", "methodology", "results", "conclusion"]
 		summary = ""
 		for component in components:
@@ -142,10 +143,8 @@ class GenAI_Wrpapper:
 		response = self.run_summary_llm_chain(component_summary=summary, components_list=components)
 		return response['summary'].replace(".", ".\n")
 
-	def get_answer(self, question, research_paper_content):
-		document_splits = self.get_document_splits(research_paper_content, chunk_size=1500, chunk_overlap=150)
-		vectordb = self.create_vectordb_from_document_splits(document_splits)
-		response = self.run_qa_chain(question, llm, vectordb)
+	def get_answer(self, question):
+		response = self.run_qa_chain(question, llm, self.vectordb)
 		return response['answer']
 
 class Page:
@@ -204,7 +203,7 @@ class Page:
 		return self.genai_wrapper_object.get_summary(self.research_paper_content)
 		
 	def get_answer(self, question):
-		response = self.genai_wrapper_object.get_answer(question, self.research_paper_content)
+		response = self.genai_wrapper_object.get_answer(question)
 		if len(response.strip()) > 0:
 			st.write("#### Answer")
 			st.write(response)
