@@ -1,0 +1,12 @@
+streamlit
+google-generativeai
+python-dotenv
+pdf2image
+PyPDF2
+openai
+Langchain
+tiktoken
+docarray
+pypdf
+faiss-cpu
+llama_index
