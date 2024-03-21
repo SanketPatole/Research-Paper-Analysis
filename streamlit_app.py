@@ -222,14 +222,6 @@ class Page:
 					try:
 						self.genai_wrapper_object = GenAI_Wrpapper(alternative_model[chat_client])
 						self.get_summary(chat_client=alternative_model[chat_client])
-						if self.submit_object2:
-							if len(question.strip()) == 0:
-								self.create_error_message(displayText=f"Please ask a valid question.")
-							else:
-								answer = self.get_answer(chat_client=chat_client, question=question)
-								if len(answer.strip()) > 0:
-									st.write("#### Answer")
-									st.write(answer)
 					except Exception as e2:
 						self.create_error_message(displayText=f"Unble to connect to ChatBot at his moment. Please try again later.")
 			
@@ -245,7 +237,6 @@ class Page:
 						if len(answer.strip()) > 0:
 							st.write("#### Answer")
 							st.write(answer)
-							time.sleep(100)
 					except Exception as e1:
 						try:
 							answer = self.get_answer(chat_client=alternative_model[chat_client], question=question)
