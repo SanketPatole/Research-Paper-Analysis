@@ -14,6 +14,7 @@ from langchain.document_loaders import CSVLoader, PyPDFLoader
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.embeddings.openai import OpenAIEmbeddings
 from langchain.vectorstores import FAISS
+import time
 
 
 class GenAI_Wrpapper:
@@ -244,6 +245,7 @@ class Page:
 						if len(answer.strip()) > 0:
 							st.write("#### Answer")
 							st.write(answer)
+							time.sleep(100)
 					except Exception as e1:
 						try:
 							answer = self.get_answer(chat_client=alternative_model[chat_client], question=question)
