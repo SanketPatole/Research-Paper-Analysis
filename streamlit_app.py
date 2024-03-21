@@ -191,11 +191,11 @@ class Page:
 				st.write(f"##### {i}. {result}")
 				i += 1
 		
-	def get_summary(self, chat_client='chatgpt3.5'):
+	def get_summary(self):
 		response = self.genai_wrapper_object.get_summary(self.research_paper_content)
 		self.display_research_paper_summary(response)
 		
-	def get_answer(self, chat_client, question):
+	def get_answer(self, question):
 		response = self.genai_wrapper_object.get_answer(question)
 		if len(response.strip()) > 0:
 			st.write("#### Answer")
@@ -220,11 +220,11 @@ class Page:
 			elif len(self.research_paper_content.strip()) > 0:
 				try:
 					self.genai_wrapper_object = GenAI_Wrpapper(chat_client)
-					self.get_summary(chat_client=chat_client)
+					self.get_summary()
 				except Exception as e1:
 					try:
 						self.genai_wrapper_object = GenAI_Wrpapper(alternative_model[chat_client])
-						self.get_summary(chat_client=alternative_model[chat_client])
+						self.get_summary()
 					except Exception as e2:
 						self.create_error_message(displayText=f"Unble to connect to ChatBot at his moment. Please try again later.")
 			
@@ -236,11 +236,9 @@ class Page:
 					self.create_error_message(displayText=f"Please ask a valid question.")
 				else:
 					try:
-						self.get_answer(chat_client=chat_client, question=question)
+						#self.get_answer(question=question)
+						self.get_summary()
 					except Exception as e1:
-						try:
-							self.get_answer(chat_client=alternative_model[chat_client], question=question)
-						except Exception as e2:
-							self.create_error_message(displayText=f"Unble to connect to ChatBot at his moment. Please try again later.")
+						self.create_error_message(displayText=f"Unble to connect to ChatBot at his moment. Please try again later.")
 page = Page()
 page.create_page()
