@@ -144,7 +144,7 @@ class GenAI_Wrpapper:
 		return response['summary'].replace(".", ".\n")
 
 	def get_answer(self, question):
-		response = self.run_qa_chain(question, llm, self.vectordb)
+		response = self.run_qa_chain(question, self.vectordb)
 		return response['answer']
 
 class Page:
