@@ -156,8 +156,8 @@ class Page:
 		self.submit_object2 = None
 		self.genai_wrapper_object = None
 		self.research_paper_summary = None
-        if 'research_paper_summary' not in st.session_state:
-            st.session_state.research_paper_summary = None
+		if 'research_paper_summary' not in st.session_state:
+			st.session_state.research_paper_summary = None
 		else:
 			self.research_paper_summary = st.session_state.research_paper_summary
 	
