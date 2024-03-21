@@ -141,11 +141,18 @@ class GenAI_Wrpapper:
 		response = self.run_summary_llm_chain(component_summary=summary, components_list=components)
 		return response['summary'].replace(".", ".\n")
 
+	def get_answer(self, question):
+		document_splits = self.get_document_splits(research_paper_content, chunk_size=1500, chunk_overlap=150)
+		vectordb = self.create_vectordb_from_document_splits(document_splits)
+		response = self.run_qa_chain(question, llm, vectordb)
+		return response['answer']
+
 class Page:
 	def __init__(self):
 		self.research_paper_url = None
 		self.research_paper_content = ""
 		self.submit_object = None
+		self.genai_wrapper_object = None
 	
 	def create_header(self, displayText="Header"):
 		st.header(displayText)
@@ -183,8 +190,11 @@ class Page:
 				i += 1
 		
 	def get_summary(self, chat_client='chatgpt3.5'):
-		response = GenAI_Wrpapper(chat_client).get_summary(self.research_paper_content)
+		response = self.genai_wrapper_object.get_summary(self.research_paper_content)
 		self.display_research_paper_summary(response)
+		
+	def get_answer(self, chat_client='chatgpt3.5', question):
+		return self.genai_wrapper_object.get_answer(question)
 		
 	def create_page(self):
 		alternative_model = {"chatgpt3.5": "gemini", "gemini": "chatgpt3.5"}
@@ -204,17 +214,35 @@ class Page:
 				self.create_error_message(displayText="Please provide a valid research paper.")
 			elif len(self.research_paper_content.strip()) > 0:
 				try:
+					self.genai_wrapper_object = GenAI_Wrpapper(chat_client)
 					self.get_summary(chat_client=chat_client)
 					self.create_header(displayText="Ask a question.")
-					self.research_paper_url = self.create_input_text(displayText="Paste your question here...", height=1)
+					question = self.create_input_text(displayText="Paste your question here...", height=1)
+					self.submit_object2 = self.create_submit_button(displayText="Ask")
+					if self.submit_object2:
+						if len(question.strip()) == 0:
+							self.create_error_message(displayText=f"Please ask a valid question.")
+						else:
+							answer = self.get_answer(chat_client=chat_client, question)
+							if len(answer.strip()) > 0:
+								st.write("#### Answer")
+								st.write(answer)
+							
 				except Exception as e1:
-					self.create_error_message(displayText=f"Chatgpt failed for {e1}")
 					try:
+						self.genai_wrapper_object = GenAI_Wrpapper(alternative_model[chat_client])
 						self.get_summary(chat_client=alternative_model[chat_client])
 						self.create_header(displayText="Ask a question.")
-						self.research_paper_url = self.create_input_text(displayText="Paste your question here...", height=1)
+						self.submit_object2 = self.create_submit_button(displayText="Ask")
+						if self.submit_object2:
+							if len(question.strip()) == 0:
+								self.create_error_message(displayText=f"Please ask a valid question.")
+							else:
+								answer = self.get_answer(chat_client=chat_client, question)
+								if len(answer.strip()) > 0:
+									st.write("#### Answer")
+									st.write(answer)
 					except Exception as e2:
 						self.create_error_message(displayText=f"Unble to connect to ChatBot at his moment. Please try again later.")
-						self.create_error_message(displayText=f"Gemini failed for {e2}")
 page = Page()
 page.create_page()
