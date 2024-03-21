@@ -142,7 +142,7 @@ class GenAI_Wrpapper:
 		response = self.run_summary_llm_chain(component_summary=summary, components_list=components)
 		return response['summary'].replace(".", ".\n")
 
-	def get_answer(self, question):
+	def get_answer(self, question, research_paper_content):
 		document_splits = self.get_document_splits(research_paper_content, chunk_size=1500, chunk_overlap=150)
 		vectordb = self.create_vectordb_from_document_splits(document_splits)
 		response = self.run_qa_chain(question, llm, vectordb)
@@ -204,7 +204,7 @@ class Page:
 		return self.genai_wrapper_object.get_summary(self.research_paper_content)
 		
 	def get_answer(self, question):
-		response = self.genai_wrapper_object.get_answer(question)
+		response = self.genai_wrapper_object.get_answer(question, self.research_paper_content)
 		if len(response.strip()) > 0:
 			st.write("#### Answer")
 			st.write(response)
