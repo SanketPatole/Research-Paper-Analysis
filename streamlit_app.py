@@ -134,10 +134,10 @@ class GenAI_Wrpapper:
 		components = ["abstract", "introduction", "methodology", "results", "conclusion"]
 		summary = ""
 		for component in components:
-		response = self.run_component_qa_chain(component, chatgpt3_5_turbo, vectordb)
-		summary += "\n\n\n\n<" + component + ">\n\n"
-		summary += "###" + response[component] + "###"
-		response = self.run_summary_llm_chain(chat_client=chatgpt3_5_turbo, component_summary=summary, components_list=components)
+			response = self.run_component_qa_chain(component, self.chat_client, vectordb)
+			summary += "\n\n\n\n<" + component + ">\n\n"
+			summary += "###" + response[component] + "###"
+		response = self.run_summary_llm_chain(chat_client=self.chat_client, component_summary=summary, components_list=components)
 		return response['summary'].replace(".", ".\n")
 
 class Page:
