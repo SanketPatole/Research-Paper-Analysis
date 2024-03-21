@@ -155,6 +155,10 @@ class Page:
 		self.submit_object = None
 		self.submit_object2 = None
 		self.genai_wrapper_object = None
+		if 'genai_wrapper_object' not in st.session_state:
+			st.session_state.genai_wrapper_object = None
+		else:
+			self.genai_wrapper_object = st.session_state.genai_wrapper_object
 		self.research_paper_summary = None
 		if 'research_paper_summary' not in st.session_state:
 			st.session_state.research_paper_summary = None
@@ -226,24 +230,27 @@ class Page:
 					self.genai_wrapper_object = GenAI_Wrpapper(chat_client)
 					self.research_paper_summary = self.get_summary()
 					st.session_state.research_paper_summary = self.research_paper_summary
+					st.session_state.genai_wrapper_object = self.genai_wrapper_object
 				except Exception as e1:
 					try:
 						self.genai_wrapper_object = GenAI_Wrpapper(alternative_model[chat_client])
 						self.research_paper_summary = self.get_summary()
+						st.session_state.research_paper_summary = self.research_paper_summary
+						st.session_state.genai_wrapper_object = self.genai_wrapper_object
 					except Exception as e2:
 						self.create_error_message(displayText=f"Unble to connect to ChatBot at his moment. Please try again later.")
 		if self.research_paper_summary:
 			self.display_research_paper_summary(self.research_paper_summary)
-		self.create_header(displayText="Ask a question.")
-		question = self.create_input_text(displayText="Paste your question here...", height=1)
-		self.submit_object2 = self.create_submit_button(displayText="Ask")
-		if self.submit_object2:
-			if len(question.strip()) == 0:
-				self.create_error_message(displayText=f"Please ask a valid question.")
-			else:
-				try:
-					self.get_answer(question=question)
-				except Exception as e1:
-					self.create_error_message(displayText=f"Unble to connect to ChatBot at his moment. Please try again later.")
+			self.create_header(displayText="Ask a question.")
+			question = self.create_input_text(displayText="Paste your question here...", height=1)
+			self.submit_object2 = self.create_submit_button(displayText="Ask")
+			if self.submit_object2:
+				if len(question.strip()) == 0:
+					self.create_error_message(displayText=f"Please ask a valid question.")
+				else:
+					try:
+						self.get_answer(question=question)
+					except Exception as e1:
+						self.create_error_message(displayText=f"Unble to connect to ChatBot at his moment. Please try again later.")
 page = Page()
 page.create_page()
