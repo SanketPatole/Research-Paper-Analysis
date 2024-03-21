@@ -228,7 +228,7 @@ class Page:
 					except Exception as e2:
 						self.create_error_message(displayText=f"Unble to connect to ChatBot at his moment. Please try again later.")
 		if self.research_paper_summary:
-			self.display_research_paper_summary(response)
+			self.display_research_paper_summary(self.research_paper_summary)
 			self.create_header(displayText="Ask a question.")
 			question = self.create_input_text(displayText="Paste your question here...", height=1)
 			self.submit_object2 = self.create_submit_button(displayText="Ask")
