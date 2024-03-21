@@ -229,6 +229,7 @@ class Page:
 								st.write(answer)
 							
 				except Exception as e1:
+					self.create_error_message(displayText=f"{e1}")
 					try:
 						self.genai_wrapper_object = GenAI_Wrpapper(alternative_model[chat_client])
 						self.get_summary(chat_client=alternative_model[chat_client])
@@ -243,6 +244,7 @@ class Page:
 									st.write("#### Answer")
 									st.write(answer)
 					except Exception as e2:
+						self.create_error_message(displayText=f"{e2}")
 						self.create_error_message(displayText=f"Unble to connect to ChatBot at his moment. Please try again later.")
 page = Page()
 page.create_page()
