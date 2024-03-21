@@ -8,7 +8,7 @@ import json
 import openai
 from langchain.chat_models import ChatOpenAI
 from langchain.prompts import PromptTemplate
-from langchain.chains.question_answering import load_qa_chain
+from langchain.chains.question_answering import load_qa_chain, LLMChain
 from langchain.output_parsers import ResponseSchema, StructuredOutputParser
 from langchain.document_loaders import CSVLoader, PyPDFLoader
 from langchain.text_splitter import RecursiveCharacterTextSplitter
