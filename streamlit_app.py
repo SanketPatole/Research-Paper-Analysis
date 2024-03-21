@@ -137,7 +137,7 @@ class GenAI_Wrpapper:
 		components = ["abstract", "introduction", "methodology", "results", "conclusion"]
 		summary = ""
 		for component in components:
-			response = self.run_component_qa_chain(component, vectordb)
+			response = self.run_component_qa_chain(component, self.vectordb)
 			summary += "\n\n\n\n<" + component + ">\n\n"
 			summary += "###" + response[component] + "###"
 		response = self.run_summary_llm_chain(component_summary=summary, components_list=components)
