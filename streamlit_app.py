@@ -190,14 +190,14 @@ class Page:
 		chat_client = st.selectbox("Choose a model:", ("chatgpt3.5", "gemini"))
 		chat_client='chatgpt3.5'
 		self.create_header(displayText="Enter url of your research paper.")
-		self.research_paper_url = self.create_input_text(displayText="Paste the job description here...", height=1)
+		self.research_paper_url = self.create_input_text(displayText="Paste the url of research paper here...", height=1)
 		self.submit_object = self.create_submit_button(displayText="Load")
-		if self.research_paper_url:
-			try:
-				self.read_research_paper()
-			except Exception as e:
-				self.create_error_message(displayText=f"Please provide valid url.\nError: {e}")
 		if self.submit_object:
+			if self.research_paper_url is not None:
+				try:
+					self.read_research_paper()
+				except Exception as e:
+					self.create_error_message(displayText=f"Please provide valid url.\nError: {e}")
 			if len(self.research_paper_content.strip()) == 0:
 				self.create_error_message(displayText="Please provide a valid research paper.")
 			elif len(self.research_paper_content.strip()) > 0:
