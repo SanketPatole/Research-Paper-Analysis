@@ -54,7 +54,7 @@ class GenAI_Wrpapper:
 		return FAISS.from_texts(document_splits, embedding=self.embedding)
 	  
 	def get_component_output_parser(self, component):
-		summary = ResponseSchema(name=f"{component}", description=f"Very brief summary of the {component} in less than {sizes[component]} words.")
+		summary = ResponseSchema(name=f"{component}", description=f"Very brief summary of the {component} in less than {self.sizes[component]} words.")
 		return StructuredOutputParser.from_response_schemas([summary])
 
 	def get_summary_output_parser(self):
@@ -101,7 +101,7 @@ class GenAI_Wrpapper:
 		context = vectordb.similarity_search(query, k=1)
 		chain = self.get_qa_chain(self.chat_client, prompt)
 		prompt_inputs = {"input_documents": context, "delimiter": "###", "instructions": instructions,
-					   "component": component, "words": sizes[component]}
+					   "component": component, "words": self.sizes[component]}
 		response = chain(prompt_inputs, return_only_outputs=True)
 		response_dict = output_parser.parse(response["output_text"])
 		return response_dict
