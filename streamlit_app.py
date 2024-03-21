@@ -178,8 +178,9 @@ class Page:
 		st.write("### Research Paper Summary")
 		i = 1
 		for result in results.split('\n'):
-			st.write(f"#### {i}. {result}")
-			i += 1
+			if len(result.strip()) > 0:
+				st.write(f"##### {i}. {result}")
+				i += 1
 		
 	def get_summary(self, chat_client='chatgpt3.5'):
 		response = GenAI_Wrpapper(chat_client).get_summary(self.research_paper_content)
