@@ -99,7 +99,7 @@ class GenAI_Wrpapper:
 		output_parser = self.get_component_output_parser(component)
 		instructions = output_parser.get_format_instructions()
 		context = vectordb.similarity_search(query, k=1)
-		chain = self.get_qa_chain(self.chat_client, prompt)
+		chain = self.get_qa_chain(prompt)
 		prompt_inputs = {"input_documents": context, "delimiter": "###", "instructions": instructions,
 					   "component": component, "words": self.sizes[component]}
 		response = chain(prompt_inputs, return_only_outputs=True)
